@@ -34,46 +34,45 @@ module InputBuffer#(parameter N = 24) (
     input i_read,
     input i_write,
     
-    output [N-1 : 0] o_data1,
-    output [N-1 : 0] o_data2,
-    output [N-1 : 0] o_data3,
-    output [N-1 : 0] o_data4,
-    output [N-1 : 0] o_data5,
-    output [N-1 : 0] o_data6,
-    output [N-1 : 0] o_data7,
-    output [N-1 : 0] o_data8,
-    output  o_valid
+    output  [N-1 : 0] o_data1,
+    output  [N-1 : 0] o_data2,
+    output  [N-1 : 0] o_data3,
+    output  [N-1 : 0] o_data4,
+    output  [N-1 : 0] o_data5,
+    output  [N-1 : 0] o_data6,
+    output  [N-1 : 0] o_data7,
+    output  [N-1 : 0] o_data8
     );
     
     LineBuffer LB1(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data1),
-    .o_valid(o_valid), .o_data(o_data1));
-    
+     .o_data(o_data1));
+
     LineBuffer LB2(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data2),
-    .o_valid(o_valid), .o_data(o_data2));
+     .o_data(o_data2));
     
     LineBuffer LB3(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data3),
-    .o_valid(o_valid), .o_data(o_data3));
+    .o_data(o_data3));
     
     LineBuffer LB4(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data4),
-    .o_valid(o_valid), .o_data(o_data4));
+     .o_data(o_data4));
     
     LineBuffer LB5(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data5),
-    .o_valid(o_valid), .o_data(o_data5));
+     .o_data(o_data5));
     
     LineBuffer LB6(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data6),
-    .o_valid(o_valid), .o_data(o_data6));
+     .o_data(o_data6));
     
     LineBuffer LB7(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data7),
-    .o_valid(o_valid), .o_data(o_data7));
+    .o_data(o_data7));
     
     LineBuffer LB8(.i_clk(i_clk), .i_rst(i_rst),
     .i_read(i_read), .i_write(i_write), .i_data(i_data8),
-    .o_valid(o_valid), .o_data(o_data8));
+     .o_data(o_data8));
 endmodule
