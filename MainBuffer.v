@@ -94,19 +94,19 @@ module Main_buffer#(parameter N = 24, M=240)(
     always@(posedge i_clk)begin
         if(i_rst)begin
             initial_setting <=0;
-            buffer_read <= {0,0};
-            buffer_write <= {0,1};
+            buffer_read <= 2'b00;
+            buffer_write <= 2'b01;
         end
         else begin
             if(count== M/8 -1)begin
                 initial_setting <=1;
                 if(initial_setting ==0)begin
-                    buffer_read <= {0,1};
-                    buffer_write <= {1,0};
+                    buffer_read <= 2'b01;
+                    buffer_write <= 2'b10;
                 end
-                else if(initial_setting == 1 && buffer_read== {0,1} )begin
-                    buffer_read <= {1,0};
-                    buffer_write <= {0,1};
+                else if(initial_setting == 1 && buffer_read== 2'b01 )begin
+                    buffer_read <= 2'b10;
+                    buffer_write <= 2'b01;
                 end
             end
         end
@@ -114,4 +114,14 @@ module Main_buffer#(parameter N = 24, M=240)(
     
     // valid setting
     assign o_valid = (initial_setting ==1 && buffer_read != 0);
+    // output setting
+    assign o_data1 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data1 : b1_o_data1;
+    assign o_data2 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data2 : b1_o_data2;
+    assign o_data3 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data3 : b1_o_data3;
+    assign o_data4 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data4 : b1_o_data4;
+    assign o_data5 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data5 : b1_o_data5;
+    assign o_data6 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data6 : b1_o_data6;
+    assign o_data7 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data7 : b1_o_data7;
+    assign o_data8 = (initial_setting == 1 && buffer_read == 2'b01) ? b0_o_data8 : b1_o_data8;
+     
 endmodule
