@@ -21,81 +21,81 @@
 
 
 module row_dct(
-    input i_clk,
+    input  i_clk,
     input i_rst,
     input i_valid,
-    input [10:0] i_data0,
-    input [10:0] i_data1,
-    input [10:0] i_data2,
-    input [10:0] i_data3,
-    input [10:0] i_data4,
-    input [10:0] i_data5,
-    input [10:0] i_data6,
-    input [10:0] i_data7,
+    input signed [10:0] i_data0,
+    input signed [10:0] i_data1,
+    input signed [10:0] i_data2,
+    input signed [10:0] i_data3,
+    input signed [10:0] i_data4,
+    input signed [10:0] i_data5,
+    input signed [10:0] i_data6,
+    input signed [10:0] i_data7,
     
     output reg o_valid,
     // reflects 1d-dct result 
-    output [13:0] o_data0,
-    output [13:0] o_data1,
-    output [13:0] o_data2,
-    output [13:0] o_data3,
-    output [13:0] o_data4,
-    output [13:0] o_data5,
-    output [13:0] o_data6,
-    output [13:0] o_data7
+    output signed [13:0] o_data0,
+    output signed [13:0] o_data1,
+    output signed [13:0] o_data2,
+    output signed [13:0] o_data3,
+    output signed [13:0] o_data4,
+    output signed [13:0] o_data5,
+    output signed [13:0] o_data6,
+    output signed [13:0] o_data7
     );
     // 
     
     //stage 1 data  , (OUTPUT : 13BIT + 4BIT) 14bit for calculation
-    reg signed [18:0] temp1_data0;
-    reg signed [18:0] temp1_data1;
-    reg signed [18:0] temp1_data2;
-    reg signed [18:0] temp1_data3;
-    reg signed [18:0] temp1_data4;
-    reg signed [18:0] temp1_data5;
-    reg signed [18:0] temp1_data6;
-    reg signed [18:0] temp1_data7;
+    reg signed [17:0] temp1_data0;
+    reg signed [17:0] temp1_data1;
+    reg signed [17:0] temp1_data2;
+    reg signed [17:0] temp1_data3;
+    reg signed [17:0] temp1_data4;
+    reg signed [17:0] temp1_data5;
+    reg signed [17:0] temp1_data6;
+    reg signed [17:0] temp1_data7;
     
     // connect s1-s2 data    
     //stage 2 data
-    reg signed [18:0] temp2_data0;
-    reg signed [18:0] temp2_data1;
-    reg signed [18:0] temp2_data2;
-    reg signed [18:0] temp2_data3;
-    reg signed [18:0] temp2_data4;
-    reg signed [18:0] temp2_data5;
-    reg signed [18:0] temp2_data6;
-    reg signed [18:0] temp2_data7;
+    reg signed [17:0] temp2_data0;
+    reg signed [17:0] temp2_data1;
+    reg signed [17:0] temp2_data2;
+    reg signed [17:0] temp2_data3;
+    reg signed [17:0] temp2_data4;
+    reg signed [17:0] temp2_data5;
+    reg signed [17:0] temp2_data6;
+    reg signed [17:0] temp2_data7;
 
     //stage 3 data
-    reg signed [18:0] temp3_data0;
-    reg signed [18:0] temp3_data1;
-    reg signed [18:0] temp3_data2;
-    reg signed [18:0] temp3_data3;
-    reg signed [18:0] temp3_data4;
-    reg signed [18:0] temp3_data5;
-    reg signed [18:0] temp3_data6;
-    reg signed [18:0] temp3_data7;
+    reg signed [17:0] temp3_data0;
+    reg signed [17:0] temp3_data1;
+    reg signed [17:0] temp3_data2;
+    reg signed [17:0] temp3_data3;
+    reg signed [17:0] temp3_data4;
+    reg signed [17:0] temp3_data5;
+    reg signed [17:0] temp3_data6;
+    reg signed [17:0] temp3_data7;
 
     //stage 4 data
-    reg signed [18:0] temp4_data0;
-    reg signed [18:0] temp4_data1;
-    reg signed [18:0] temp4_data2;
-    reg signed [18:0] temp4_data3;
-    reg signed [18:0] temp4_data4;
-    reg signed [18:0] temp4_data5;
-    reg signed [18:0] temp4_data6;
-    reg signed [18:0] temp4_data7;
+    reg signed [17:0] temp4_data0;
+    reg signed [17:0] temp4_data1;
+    reg signed [17:0] temp4_data2;
+    reg signed [17:0] temp4_data3;
+    reg signed [17:0] temp4_data4;
+    reg signed [17:0] temp4_data5;
+    reg signed [17:0] temp4_data6;
+    reg signed [17:0] temp4_data7;
    
     //stage 5 data
-    reg signed [18:0] temp5_data0;
-    reg signed [18:0] temp5_data1;
-    reg signed [18:0] temp5_data2;
-    reg signed [18:0] temp5_data3;
-    reg signed [18:0] temp5_data4;
-    reg signed [18:0] temp5_data5;
-    reg signed [18:0] temp5_data6;
-    reg signed [18:0] temp5_data7;
+    reg signed [17:0] temp5_data0;
+    reg signed [17:0] temp5_data1;
+    reg signed [17:0] temp5_data2;
+    reg signed [17:0] temp5_data3;
+    reg signed [17:0] temp5_data4;
+    reg signed [17:0] temp5_data5;
+    reg signed [17:0] temp5_data6;
+    reg signed [17:0] temp5_data7;
     
     
     
