@@ -24,23 +24,23 @@ module TransposeBuffer(
     input i_clk,
     input i_rst,
     input i_valid,
-    input [10:0] i_data0,
-    input [10:0] i_data1,
-    input [10:0] i_data2,
-    input [10:0] i_data3,
-    input [10:0] i_data4,
-    input [10:0] i_data5,
-    input [10:0] i_data6,
-    input [10:0] i_data7,
+    input [11:0] i_data0,
+    input [11:0] i_data1,
+    input [11:0] i_data2,
+    input [11:0] i_data3,
+    input [11:0] i_data4,
+    input [11:0] i_data5,
+    input [11:0] i_data6,
+    input [11:0] i_data7,
     
-    output [10:0] o_data0,
-    output [10:0] o_data1,
-    output [10:0] o_data2,
-    output [10:0] o_data3,
-    output [10:0] o_data4,
-    output [10:0] o_data5,
-    output [10:0] o_data6,
-    output [10:0] o_data7,
+    output [11:0] o_data0,
+    output [11:0] o_data1,
+    output [11:0] o_data2,
+    output [11:0] o_data3,
+    output [11:0] o_data4,
+    output [11:0] o_data5,
+    output [11:0] o_data6,
+    output [11:0] o_data7,
     output o_valid
     );
     reg [1:0] read;
@@ -49,23 +49,23 @@ module TransposeBuffer(
     reg f_flag;
     
     wire [1:0] buf_valid;
-    wire signed [10:0] o_buf0_out0;
-    wire signed [10:0] o_buf0_out1;
-    wire signed [10:0] o_buf0_out2;
-    wire signed [10:0] o_buf0_out3;
-    wire signed [10:0] o_buf0_out4;
-    wire signed [10:0] o_buf0_out5;
-    wire signed [10:0] o_buf0_out6;
-    wire signed [10:0] o_buf0_out7;
+    wire signed [11:0] o_buf0_out0;
+    wire signed [11:0] o_buf0_out1;
+    wire signed [11:0] o_buf0_out2;
+    wire signed [11:0] o_buf0_out3;
+    wire signed [11:0] o_buf0_out4;
+    wire signed [11:0] o_buf0_out5;
+    wire signed [11:0] o_buf0_out6;
+    wire signed [11:0] o_buf0_out7;
     
-    wire signed [10:0] o_buf1_out0;
-    wire signed [10:0] o_buf1_out1;
-    wire signed [10:0] o_buf1_out2;
-    wire signed [10:0] o_buf1_out3;
-    wire signed [10:0] o_buf1_out4;
-    wire signed [10:0] o_buf1_out5;
-    wire signed [10:0] o_buf1_out6;
-    wire signed [10:0] o_buf1_out7;
+    wire signed [11:0] o_buf1_out0;
+    wire signed [11:0] o_buf1_out1;
+    wire signed [11:0] o_buf1_out2;
+    wire signed [11:0] o_buf1_out3;
+    wire signed [11:0] o_buf1_out4;
+    wire signed [11:0] o_buf1_out5;
+    wire signed [11:0] o_buf1_out6;
+    wire signed [11:0] o_buf1_out7;
     
     reg [2:0] count;
     reg initial_flag;
