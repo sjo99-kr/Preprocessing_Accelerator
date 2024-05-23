@@ -25,34 +25,34 @@ module LineBuffer(
     input i_rst,
     input i_read,
     input i_write,
-    input [10:0] i_data0,
-    input [10:0] i_data1,
-    input [10:0] i_data2,
-    input [10:0] i_data3,
-    input [10:0] i_data4,
-    input [10:0] i_data5,
-    input [10:0] i_data6,
-    input [10:0] i_data7,
+    input [11:0] i_data0,
+    input [11:0] i_data1,
+    input [11:0] i_data2,
+    input [11:0] i_data3,
+    input [11:0] i_data4,
+    input [11:0] i_data5,
+    input [11:0] i_data6,
+    input [11:0] i_data7,
     
-    output [10:0] o_data0,
-    output [10:0] o_data1,
-    output [10:0] o_data2,
-    output [10:0] o_data3,
-    output [10:0] o_data4,
-    output [10:0] o_data5,
-    output [10:0] o_data6,
-    output [10:0] o_data7,
+    output [11:0] o_data0,
+    output [11:0] o_data1,
+    output [11:0] o_data2,
+    output [11:0] o_data3,
+    output [11:0] o_data4,
+    output [11:0] o_data5,
+    output [11:0] o_data6,
+    output [11:0] o_data7,
     output  o_valid
     );
     //LineBuffer Setting (1920 x 1080)
-    reg signed [10: 0] LineBuffer0 [7:0];
-    reg signed [10: 0] LineBuffer1 [7:0];
-    reg signed [10: 0] LineBuffer2 [7:0];
-    reg signed [10: 0] LineBuffer3 [7:0];
-    reg signed [10: 0] LineBuffer4 [7:0];
-    reg signed [10: 0] LineBuffer5 [7:0];
-    reg signed [10: 0] LineBuffer6 [7:0];
-    reg signed [10: 0] LineBuffer7 [7:0];
+    reg signed [11: 0] LineBuffer0 [7:0];
+    reg signed [11: 0] LineBuffer1 [7:0];
+    reg signed [11: 0] LineBuffer2 [7:0];
+    reg signed [11: 0] LineBuffer3 [7:0];
+    reg signed [11: 0] LineBuffer4 [7:0];
+    reg signed [11: 0] LineBuffer5 [7:0];
+    reg signed [11: 0] LineBuffer6 [7:0];
+    reg signed [11: 0] LineBuffer7 [7:0];
     
     wire empty;
     reg [2: 0] wr_ptr;
