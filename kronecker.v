@@ -288,8 +288,13 @@ module kronecker(
             frequency_data6 <= 0;
             frequency_data7 <= 0;
             out_freq0 <= 0;
-            
-            
+            out_freq1 <= 0;
+            out_freq2 <= 0;
+            out_freq3 <= 0;
+            out_freq4 <= 0;
+            out_freq5 <= 0;
+            out_freq6 <= 0;
+            out_freq7 <= 0;
         end
         else begin
             if(stage5_valid)begin
