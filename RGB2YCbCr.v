@@ -72,6 +72,7 @@ module RGB2YCbCr(
     RGB2YCbCrModule m7(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data7), .i_valid(i_valid), .o_LUMA_data(o_luma_data7), .o_CB_data(o_cb_data7), .o_CR_data(o_cr_data7));
     RGB2YCbCrModule m8(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data8), .i_valid(i_valid), .o_LUMA_data(o_luma_data8), .o_CB_data(o_cb_data8), .o_CR_data(o_cr_data8));
     
+    assign o_valid = (o_luma_data1);
     
     
 endmodule
