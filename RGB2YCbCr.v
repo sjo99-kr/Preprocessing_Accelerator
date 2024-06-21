@@ -30,7 +30,7 @@ module RGB2YCbCr(
     input [23:0] i_data5,
     input [23:0] i_data6,
     input [23:0] i_data7,
-    input [23:0] i_data8,
+    input [23:0] i_data0,
     input i_valid,
     
     output [7:0] o_luma_data1,
@@ -40,7 +40,7 @@ module RGB2YCbCr(
     output [7:0] o_luma_data5,
     output [7:0] o_luma_data6,
     output [7:0] o_luma_data7,
-    output [7:0] o_luma_data8,
+    output [7:0] o_luma_data0,
     
     output [7:0] o_cb_data1,
     output [7:0] o_cb_data2,
@@ -49,7 +49,7 @@ module RGB2YCbCr(
     output [7:0] o_cb_data5,
     output [7:0] o_cb_data6,
     output [7:0] o_cb_data7,
-    output [7:0] o_cb_data8,
+    output [7:0] o_cb_data0,
     
     output [7:0] o_cr_data1,
     output [7:0] o_cr_data2,
@@ -58,11 +58,12 @@ module RGB2YCbCr(
     output [7:0] o_cr_data5,
     output [7:0] o_cr_data6,
     output [7:0] o_cr_data7,
-    output [7:0] o_cr_data8,
+    output [7:0] o_cr_data0,
     output o_valid    
     );
+    wire rgb_module_valid;
     
-    
+    RGB2YCbCrModule m0(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data0), .i_valid(i_valid), .o_LUMA_data(o_luma_data0), .o_CB_data(o_cb_data0), .o_CR_data(o_cr_data0), .o_valid(rgb_module_valid));
     RGB2YCbCrModule m1(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data1), .i_valid(i_valid), .o_LUMA_data(o_luma_data1), .o_CB_data(o_cb_data1), .o_CR_data(o_cr_data1));
     RGB2YCbCrModule m2(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data2), .i_valid(i_valid), .o_LUMA_data(o_luma_data2), .o_CB_data(o_cb_data2), .o_CR_data(o_cr_data2));
     RGB2YCbCrModule m3(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data3), .i_valid(i_valid), .o_LUMA_data(o_luma_data3), .o_CB_data(o_cb_data3), .o_CR_data(o_cr_data3));
@@ -70,9 +71,8 @@ module RGB2YCbCr(
     RGB2YCbCrModule m5(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data5), .i_valid(i_valid), .o_LUMA_data(o_luma_data5), .o_CB_data(o_cb_data5), .o_CR_data(o_cr_data5));
     RGB2YCbCrModule m6(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data6), .i_valid(i_valid), .o_LUMA_data(o_luma_data6), .o_CB_data(o_cb_data6), .o_CR_data(o_cr_data6));
     RGB2YCbCrModule m7(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data7), .i_valid(i_valid), .o_LUMA_data(o_luma_data7), .o_CB_data(o_cb_data7), .o_CR_data(o_cr_data7));
-    RGB2YCbCrModule m8(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data8), .i_valid(i_valid), .o_LUMA_data(o_luma_data8), .o_CB_data(o_cb_data8), .o_CR_data(o_cr_data8));
     
-    assign o_valid = (o_luma_data1);
+    assign o_valid = (rgb_module_valid);
     
     
 endmodule
