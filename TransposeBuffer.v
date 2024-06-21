@@ -150,10 +150,10 @@ module TransposeBuffer(
         end
     end
     
-    LineBuffer LB0 (.i_clk(i_clk), .i_rst(i_rst), .i_read(read[0] & ~f_flag), .i_write(write[0] & i_valid), .i_data0(i_data0), .i_data1(i_data1), .i_data2(i_data2), .i_data3(i_data3), .i_data4(i_data4), .i_data5(i_data5), .i_data6(i_data6), .i_data7(i_data7),
+    dct_linebuffer LB0 (.i_clk(i_clk), .i_rst(i_rst), .i_read(read[0] & ~f_flag), .i_write(write[0] & i_valid), .i_data0(i_data0), .i_data1(i_data1), .i_data2(i_data2), .i_data3(i_data3), .i_data4(i_data4), .i_data5(i_data5), .i_data6(i_data6), .i_data7(i_data7),
     .o_data0(o_buf0_out0), .o_data1(o_buf0_out1), .o_data2(o_buf0_out2), .o_data3(o_buf0_out3), .o_data4(o_buf0_out4), .o_data5(o_buf0_out5), .o_data6(o_buf0_out6), .o_data7(o_buf0_out7), .o_valid(buf_valid[0]));
     
-    LineBuffer LB1 (.i_clk(i_clk), .i_rst(i_rst), .i_read(read[1] & ~f_flag), .i_write(write[1] & i_valid), .i_data0(i_data0), .i_data1(i_data1), .i_data2(i_data2), .i_data3(i_data3), .i_data4(i_data4), .i_data5(i_data5), .i_data6(i_data6), .i_data7(i_data7),
+    dct_linebuffer LB1 (.i_clk(i_clk), .i_rst(i_rst), .i_read(read[1] & ~f_flag), .i_write(write[1] & i_valid), .i_data0(i_data0), .i_data1(i_data1), .i_data2(i_data2), .i_data3(i_data3), .i_data4(i_data4), .i_data5(i_data5), .i_data6(i_data6), .i_data7(i_data7),
     .o_data0(o_buf1_out0), .o_data1(o_buf1_out1), .o_data2(o_buf1_out2), .o_data3(o_buf1_out3), .o_data4(o_buf1_out4), .o_data5(o_buf1_out5), .o_data6(o_buf1_out6), .o_data7(o_buf1_out7), .o_valid(buf_valid[1]));    
     
     assign o_data0 = read[1] ? o_buf1_out0 : o_buf0_out0;
