@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module LineBuffer(
+module dct_linebuffer(
     input i_clk,
     input i_rst,
     input i_read,
