@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module Buffer_8x8(
 
     input i_clk,
@@ -8,7 +7,8 @@ module Buffer_8x8(
     // slave
     input [31:0] s_axis_data,
     input s_axis_valid,
-    output s_axis_ready,
+    
+    output reg s_axis_ready,
     
     // master
     output reg [23:0] output_data1,
@@ -38,6 +38,7 @@ module Buffer_8x8(
             wr_pt <= 0;
             flag <= 0;
             o_intr <= 0;
+            s_axis_ready <= 0;
         end        
                    
         else begin
@@ -48,11 +49,13 @@ module Buffer_8x8(
             if(wr_pt== 63 && (flag ==0))begin
                 wr_pt <= 0;
                 flag <= 1;
+                s_axis_ready <= 0;
             end
             
             if(rd_pt == 7 && flag == 1)begin
                 flag <= 0;
                 o_intr <= 1;
+                s_axis_ready <= 1;
             end
             else begin
                 o_intr <= 0;
@@ -74,6 +77,7 @@ module Buffer_8x8(
         end
         else begin
             if(flag ==1) begin
+                
                 output_data1 <= buffer[rd_pt*8];
                 output_data2 <= buffer[rd_pt*8 + 1];
                 output_data3 <= buffer[rd_pt*8 + 2];
