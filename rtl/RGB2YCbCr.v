@@ -1,24 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/05/17 16:45:09
-// Design Name: 
-// Module Name: RGB2YCbCr
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module RGB2YCbCr(
     input i_clk,
@@ -61,6 +40,7 @@ module RGB2YCbCr(
     output [7:0] o_cr_data0,
     output o_valid    
     );
+    
     wire rgb_module_valid;
     
     RGB2YCbCrModule m0(.i_clk(i_clk), .i_rst(i_rst), .i_data(i_data0), .i_valid(i_valid), .o_LUMA_data(o_luma_data0), .o_CB_data(o_cb_data0), .o_CR_data(o_cr_data0), .o_valid(rgb_module_valid));
