@@ -26,7 +26,6 @@ module kronecker(
     );
     
     //reg valid -------------------------stage 1-----------------------------------
-    reg  [3:0] cnt;
 
     reg signed [10:0] a_half1;
     reg signed [10:0] b_half1;
@@ -77,20 +76,22 @@ module kronecker(
     reg signed [16:0] c_s1;
     reg signed [16:0] c_s3;
     //----------------------------------------------------------//
-    reg [3:0] cnt;
+    reg [4:0] cnt;
     
     //valid signal
     reg stage2_valid, stage3_valid, stage4_valid, stage5_valid, out_signal;
-    
+    reg stage6_valid, stage7_valid, stage8_valid, stage9_valid, stage10_valid;
+    reg stage11_valid, stage12_valid;
+
     // We have only one register data for each frequency output
-    reg signed [12:0] frequency_data0; //freq 1
-    reg signed [12:0] frequency_data1; // freq 2
-    reg signed [12:0] frequency_data2;// freq 3
-    reg signed [12:0] frequency_data3; // freq 4
-    reg signed [12:0] frequency_data4;// freq 5
-    reg signed [12:0] frequency_data5;// freq 6
-    reg signed [12:0] frequency_data6; // freq 7
-    reg signed [12:0] frequency_data7; // freq 8
+    reg signed [12:0] frequency_data0 [6:0]; //freq 1
+    reg signed [12:0] frequency_data1 [6:0]; // freq 2
+    reg signed [12:0] frequency_data2 [6:0];// freq 3
+    reg signed [12:0] frequency_data3 [6:0]; // freq 4
+    reg signed [12:0] frequency_data4 [6:0];// freq 5
+    reg signed [12:0] frequency_data5 [6:0];// freq 6
+    reg signed [12:0] frequency_data6 [6:0]; // freq 7
+    reg signed [12:0] frequency_data7 [6:0]; // freq 8
     
     reg signed [12:0] out_freq0;
     reg signed [12:0] out_freq1;
@@ -103,7 +104,7 @@ module kronecker(
     
     // We have to control input sequence at buffer line
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             stage2_valid <= 0;
             stage3_valid <= 0;
             stage4_valid <= 0;
@@ -113,11 +114,20 @@ module kronecker(
             stage3_valid <= stage2_valid;
             stage4_valid <= stage3_valid;
             stage5_valid <= stage4_valid;
+            stage6_valid <= stage4_valid;
+            stage7_valid <= stage6_valid;
+            stage8_valid <= stage7_valid;
+            stage9_valid <= stage8_valid;
+            stage10_valid <= stage9_valid;
+            stage11_valid <= stage10_valid;
+            stage12_valid <= stage11_valid;
+
+            
         end
     end
     //-------------------------------stage 1-----------------------------------------------//
     always@(posedge i_clk)begin
-        if(i_rst)begin 
+        if(!i_rst)begin 
             a_half1 <= 0;
             a_half2 <= 0;
             a_half3 <= 0;
@@ -154,7 +164,7 @@ module kronecker(
     
     //-----------------------------------------------------stage 2---------------------------------------------//
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             a_ha1 <= 0;
             a_ha2 <= 0;
             
@@ -182,7 +192,7 @@ module kronecker(
     
     //------------------------------------------stage 3 -----------------------------------------------------//
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             a_ha1 <= 0;
             b_ha1 <= 0;
             c_ha1 <= 0;
@@ -200,7 +210,7 @@ module kronecker(
     end
     //---------------------------------------stage 4---------------------------------------------------//
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             a_s1 <= 0;
             a_s2 <= 0;
             a_s3 <= 0;
@@ -230,12 +240,12 @@ module kronecker(
     //---------------------------------count setting--------------------------------------------/
     
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             cnt <= 0;
         end
         else begin
-            if(stage5_valid) begin
-                if(cnt ==7) begin
+            if(i_valid) begin
+                if(cnt ==11) begin
                     cnt <= 0;
                 end
                 else begin
@@ -245,11 +255,11 @@ module kronecker(
         end
     end
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             out_signal <= 0;
         end
         else begin
-            if(cnt==7) begin
+            if(cnt==11) begin
                 out_signal <= 1;
             end
             else out_signal <= 0;
@@ -257,16 +267,19 @@ module kronecker(
     end
     
     //-----------------------------------------------freqeuncy calculation-----------------------------------------------------------------//
+    integer j;
     always@(posedge i_clk)begin
-        if(i_rst)begin
-            frequency_data0 <= 0;
-            frequency_data1 <= 0;
-            frequency_data2 <= 0;
-            frequency_data3 <= 0;
-            frequency_data4 <= 0;
-            frequency_data5 <= 0;
-            frequency_data6 <= 0;
-            frequency_data7 <= 0;
+        if(!i_rst)begin
+            for(j = 0; j<7; j= j+1)begin
+                frequency_data0[j] <= 0;
+                frequency_data1[j] <= 0;
+                frequency_data2[j] <= 0;
+                frequency_data3[j] <= 0;
+                frequency_data4[j] <= 0;
+                frequency_data5[j] <= 0;
+                frequency_data6[j] <= 0;
+                frequency_data7[j] <= 0;
+            end
             out_freq0 <= 0;
             out_freq1 <= 0;
             out_freq2 <= 0;
@@ -277,100 +290,91 @@ module kronecker(
             out_freq7 <= 0;
         end
         else begin
-            if(stage5_valid)begin
-                if(cnt==0) begin
-                    frequency_data0 <= frequency_data0 + a_s1;
-                    frequency_data1 <= frequency_data1 + b_s1;
-                    frequency_data2 <= frequency_data2 + c_s1;
-                    frequency_data3 <= frequency_data3 + a_s1;
-                    frequency_data4 <= frequency_data4 + b_s1;
-                    frequency_data5 <= frequency_data5 + c_s1;
-                    frequency_data6 <= frequency_data6 + a_s2;
-                    frequency_data7 <= frequency_data7 + b_s2;
+                if(stage5_valid) begin
+                    frequency_data0[0] <=  a_s1;
+                    frequency_data1[0] <=  b_s1;
+                    frequency_data2[0] <=  c_s1;
+                    frequency_data3[0] <=  a_s1;
+                    frequency_data4[0] <=  b_s1;
+                    frequency_data5[0] <=  c_s1;
+                    frequency_data6[0] <=  a_s2;
+                    frequency_data7[0] <=  b_s2;
                 end
-                if(cnt==1)begin
-                    frequency_data0 <= frequency_data0 + a_s1;
-                    frequency_data1 <= frequency_data1 + b_s1;
-                    frequency_data2 <= frequency_data2 + c_s1;
-                    frequency_data3 <= frequency_data3 + a_s1;
-                    frequency_data4 <= frequency_data4 + b_s1;
-                    frequency_data5 <= frequency_data5 + c_s1;
-                    frequency_data6 <= frequency_data6 + a_s3;
-                    frequency_data7 <= frequency_data7 + b_s3;
+                if(stage6_valid)begin
+                    frequency_data0[1] <= frequency_data0[0] + a_s1;
+                    frequency_data1[1] <= frequency_data1[0] + b_s1;
+                    frequency_data2[1] <= frequency_data2[0] + c_s1;
+                    frequency_data3[1] <= frequency_data3[0] + a_s1;
+                    frequency_data4[1] <= frequency_data4[0] + b_s1;
+                    frequency_data5[1] <= frequency_data5[0] + c_s1;
+                    frequency_data6[1] <= frequency_data6[0] + a_s3;
+                    frequency_data7[1] <= frequency_data7[0] + b_s3;
                 end
-                if(cnt == 2)begin
-                    frequency_data0 <= frequency_data0 + a_s1;
-                    frequency_data1 <= frequency_data1 + b_s1;
-                    frequency_data2 <= frequency_data2 + c_s1;
-                    frequency_data3 <= frequency_data3 + a_s3;
-                    frequency_data4 <= frequency_data4 + b_s3;
-                    frequency_data5 <= frequency_data5 + c_s3;
-                    frequency_data6 <= frequency_data6 - a_s3;
-                    frequency_data7 <= frequency_data7 - b_s3;
+                if(stage7_valid) begin
+                    frequency_data0[2] <= frequency_data0[1] + a_s1;
+                    frequency_data1[2] <= frequency_data1[1] + b_s1;
+                    frequency_data2[2] <= frequency_data2[1] + c_s1;
+                    frequency_data3[2] <= frequency_data3[1] + a_s3;
+                    frequency_data4[2] <= frequency_data4[1] + b_s3;
+                    frequency_data5[2] <= frequency_data5[1] + c_s3;
+                    frequency_data6[2] <= frequency_data6[1] - a_s3;
+                    frequency_data7[2] <= frequency_data7[1] - b_s3;
                 end
-                if(cnt == 3) begin
-                    frequency_data0 <= frequency_data0 + a_s1;
-                    frequency_data1 <= frequency_data1 + b_s1;
-                    frequency_data2 <= frequency_data2 + c_s1;
-                    frequency_data3 <= frequency_data3;
-                    frequency_data4 <= frequency_data4;
-                    frequency_data5 <= frequency_data5;
-                    frequency_data6 <= frequency_data6 - a_s2;
-                    frequency_data7 <= frequency_data7 - b_s2;
+                
+                if(stage8_valid) begin
+                    frequency_data0[3] <= frequency_data0[2] + a_s1;
+                    frequency_data1[3] <= frequency_data1[2] + b_s1;
+                    frequency_data2[3] <= frequency_data2[2] + c_s1;
+                    frequency_data3[3] <= frequency_data3[2];
+                    frequency_data4[3] <= frequency_data4[2];
+                    frequency_data5[3] <= frequency_data5[2];
+                    frequency_data6[3] <= frequency_data6[2] - a_s2;
+                    frequency_data7[3] <= frequency_data7[2] - b_s2;
                 end
-                if(cnt == 4)begin
-                    frequency_data0 <= frequency_data0 + a_s1;
-                    frequency_data1 <= frequency_data1 + b_s1;
-                    frequency_data2 <= frequency_data2 + c_s1;
-                    frequency_data3 <= frequency_data3;
-                    frequency_data4 <= frequency_data4;
-                    frequency_data5 <= frequency_data5;
-                    frequency_data6 <= frequency_data6 - a_s2;
-                    frequency_data7 <= frequency_data7 - b_s2;           
+                
+                if(stage9_valid)begin
+                    frequency_data0[4] <= frequency_data0[3] + a_s1;
+                    frequency_data1[4] <= frequency_data1[3] + b_s1;
+                    frequency_data2[4] <= frequency_data2[3] + c_s1;
+                    frequency_data3[4] <= frequency_data3[3];
+                    frequency_data4[4] <= frequency_data4[3];
+                    frequency_data5[4] <= frequency_data5[3];
+                    frequency_data6[4] <= frequency_data6[3]  - a_s2;
+                    frequency_data7[4] <= frequency_data7[3]  - b_s2;           
                 end
-                if(cnt == 5)begin
-                    frequency_data0 <= frequency_data0 + a_s1;
-                    frequency_data1 <= frequency_data1 + b_s1;
-                    frequency_data2 <= frequency_data2 + c_s1;
-                    frequency_data3 <= frequency_data3 - a_s3;
-                    frequency_data4 <= frequency_data4 - b_s3;
-                    frequency_data5 <= frequency_data5 - c_s3;
-                    frequency_data6 <= frequency_data6 - a_s3;
-                    frequency_data7 <= frequency_data7 - b_s3;
+                if(stage10_valid)begin
+                    frequency_data0[5] <= frequency_data0[4] + a_s1;
+                    frequency_data1[5] <= frequency_data1[4] + b_s1;
+                    frequency_data2[5] <= frequency_data2[4] + c_s1;
+                    frequency_data3[5] <= frequency_data3[4] - a_s3;
+                    frequency_data4[5] <= frequency_data4[4] - b_s3;
+                    frequency_data5[5] <= frequency_data5[4] - c_s3;
+                    frequency_data6[5] <= frequency_data6[4] - a_s3;
+                    frequency_data7[5] <= frequency_data7[4] - b_s3;
                 end
-                if(cnt == 6)begin
-                    frequency_data0 <= frequency_data0 + a_s1;
-                    frequency_data1 <= frequency_data1 + b_s1;
-                    frequency_data2 <= frequency_data2 + c_s1;
-                    frequency_data3 <= frequency_data3 - a_s1;
-                    frequency_data4 <= frequency_data4 - b_s1;
-                    frequency_data5 <= frequency_data5 - c_s1;
-                    frequency_data6 <= frequency_data6 + a_s3;
-                    frequency_data7 <= frequency_data7 + b_s3;
+                if(stage11_valid)begin
+                    frequency_data0[6] <= frequency_data0[5] + a_s1;
+                    frequency_data1[6] <= frequency_data1[5] + b_s1;
+                    frequency_data2[6] <= frequency_data2[5] + c_s1;
+                    frequency_data3[6] <= frequency_data3[5] - a_s1;
+                    frequency_data4[6] <= frequency_data4[5] - b_s1;
+                    frequency_data5[6] <= frequency_data5[5] - c_s1;
+                    frequency_data6[6] <= frequency_data6[5] + a_s3;
+                    frequency_data7[6] <= frequency_data7[5] + b_s3;
                 end
-                if(cnt == 7) begin
-                    out_freq0 <= frequency_data0 + a_s1;
-                    out_freq1 <= frequency_data1 + b_s1;
-                    out_freq2 <= frequency_data2 + c_s1;
-                    out_freq3 <= frequency_data3 - a_s1;
-                    out_freq4 <= frequency_data4 - b_s1;
-                    out_freq5 <= frequency_data5 - c_s1;
-                    out_freq6 <= frequency_data6 + a_s2;
-                    out_freq7 <= frequency_data7 + b_s2;
-                    frequency_data0 <= 0;
-                    frequency_data1 <= 0;
-                    frequency_data2 <= 0;
-                    frequency_data3 <= 0;
-                    frequency_data4 <= 0;
-                    frequency_data5 <= 0;
-                    frequency_data6 <= 0;
-                    frequency_data7 <= 0;
+                if(stage12_valid) begin
+                    out_freq0 <= frequency_data0[6] + a_s1;
+                    out_freq1 <= frequency_data1[6] + b_s1;
+                    out_freq2 <= frequency_data2[6] + c_s1;
+                    out_freq3 <= frequency_data3[6] - a_s1;
+                    out_freq4 <= frequency_data4[6] - b_s1;
+                    out_freq5 <= frequency_data5[6] - c_s1;
+                    out_freq6 <= frequency_data6[6] + a_s2;
+                    out_freq7 <= frequency_data7[6] + b_s2;
                 end
-            
             end
         end
-    end
-    
+        
     assign o_valid = out_signal;
     assign o_data0 = (out_freq0[0] > 0) ? out_freq0[12:1] + 1 : out_freq0[12:1];
     assign o_data1 = (out_freq1[0] > 0) ? out_freq1[12:1] + 1 : out_freq1[12:1];
