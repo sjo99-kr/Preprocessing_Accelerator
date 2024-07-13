@@ -33,7 +33,14 @@ module twoD_DCT(
     input signed [7:0] i_data6,
     input signed [7:0] i_data7,
     
-    output  o_valid,
+    output o_valid1,
+    output o_valid2,
+    output o_valid3,
+    output o_valid4,
+    output o_valid5,
+    output o_valid6,
+    output o_valid7,
+    output o_valid8,
     // reflects 1d-dct result 
     output signed [11:0] o_data0,
     output signed [11:0] o_data1,
@@ -74,7 +81,8 @@ module twoD_DCT(
    .o_data0(trans_out0), .o_data1(trans_out1), .o_data2(trans_out2), .o_data3(trans_out3), .o_data4(trans_out4), .o_data5(trans_out5), .o_data6(trans_out6), .o_data7(trans_out7), .o_valid(trans_valid));
    
    row_dct dct2(.i_clk(i_clk), .i_rst(i_rst), .i_valid(trans_valid), .i_data0(trans_out0), .i_data1(trans_out1), .i_data2(trans_out2), .i_data3(trans_out3), .i_data4(trans_out4), .i_data5(trans_out5), .i_data6(trans_out6), .i_data7(trans_out7),
-   .o_data0(o_data0), .o_data1(o_data1), .o_data2(o_data2), .o_data3(o_data3), .o_data4(o_data4), .o_data5(o_data5), .o_data6(o_data6), .o_data7(o_data7), .o_valid(o_valid));
+   .o_data0(o_data0), .o_data1(o_data1), .o_data2(o_data2), .o_data3(o_data3), .o_data4(o_data4), .o_data5(o_data5), .o_data6(o_data6), .o_data7(o_data7), 
+   .o_valid1(o_valid1), .o_valid2(o_valid2), .o_valid3(o_valid3), .o_valid4(o_valid4), .o_valid5(o_valid5), .o_valid6(o_valid6), .o_valid7(o_valid7), .o_valid8(o_valid8));
    
     
 endmodule
