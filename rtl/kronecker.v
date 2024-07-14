@@ -349,7 +349,7 @@ module kronecker(
             end
         end
         
-    assign o_valid = stage13_valid && stage5_valid;
+    assign o_valid = stage13_valid && stage6_valid;
     
     assign o_data0 = (out_freq0[0] > 0) ? out_freq0[12:1] + 1 : out_freq0[12:1];
     assign o_data1 = (out_freq1[0] > 0) ? out_freq1[12:1] + 1 : out_freq1[12:1];
