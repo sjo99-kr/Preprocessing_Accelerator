@@ -27,14 +27,13 @@ module Buffer_8x8(
     integer i;
     reg flag;
     reg [5:0] wr_pt;
-    reg [2:0] rd_pt;
+    reg [3:0] rd_pt;
     
     always@(posedge i_clk)begin
         if(!i_rst)begin
             for(i =0; i < 63; i = i+1)begin
                 buffer[i] <= 0;
             end
-            output_valid <= 0;
             wr_pt <= 0;
             flag <= 0;
             o_intr <= 0;
@@ -52,7 +51,7 @@ module Buffer_8x8(
                 s_axis_ready <= 0;
             end
             
-            if(rd_pt == 7 && flag == 1)begin
+            if(rd_pt == 8 && flag == 1)begin
                 flag <= 0;
                 o_intr <= 1;
                 s_axis_ready <= 1;
@@ -62,6 +61,7 @@ module Buffer_8x8(
             end
         end
     end
+    
     always@(posedge i_clk)begin
         if(!i_rst)begin
             output_data1 <= 0;
@@ -88,7 +88,12 @@ module Buffer_8x8(
                 output_data8 <= buffer[rd_pt*8 + 7];
                 rd_pt <= rd_pt + 1;
                 output_valid <= 1;
+                if(rd_pt == 8)begin
+                    output_valid <= 0;
+                    rd_pt <= 0;
+                end
             end 
+            
         end
     end
 endmodule
