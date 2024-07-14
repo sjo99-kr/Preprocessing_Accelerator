@@ -76,12 +76,11 @@ module kronecker(
     reg signed [16:0] c_s1;
     reg signed [16:0] c_s3;
     //----------------------------------------------------------//
-    reg [4:0] cnt;
     
     //valid signal
-    reg stage2_valid, stage3_valid, stage4_valid, stage5_valid, out_signal;
+    reg stage2_valid, stage3_valid, stage4_valid, stage5_valid;
     reg stage6_valid, stage7_valid, stage8_valid, stage9_valid, stage10_valid;
-    reg stage11_valid, stage12_valid;
+    reg stage11_valid, stage12_valid, stage13_valid;
 
     // We have only one register data for each frequency output
     reg signed [12:0] frequency_data0 [6:0]; //freq 1
@@ -107,24 +106,26 @@ module kronecker(
         if(!i_rst)begin
             stage2_valid <= 0;
             stage3_valid <= 0;
-            stage4_valid <= 0;
+            stage4_valid <= 0; stage5_valid <=0; stage6_valid <=0; stage7_valid <= 0;
+            stage8_valid <= 0; stage9_valid <= 0; stage10_valid <= 0; stage11_valid <= 0;
+            stage12_valid <=0; stage13_valid <= 0;
         end
         else begin
             stage2_valid <= i_valid;
             stage3_valid <= stage2_valid;
             stage4_valid <= stage3_valid;
             stage5_valid <= stage4_valid;
-            stage6_valid <= stage4_valid;
+            stage6_valid <= stage5_valid;
             stage7_valid <= stage6_valid;
             stage8_valid <= stage7_valid;
             stage9_valid <= stage8_valid;
             stage10_valid <= stage9_valid;
             stage11_valid <= stage10_valid;
             stage12_valid <= stage11_valid;
-
-            
+            stage13_valid <= stage12_valid;
         end
     end
+
     //-------------------------------stage 1-----------------------------------------------//
     always@(posedge i_clk)begin
         if(!i_rst)begin 
@@ -193,13 +194,14 @@ module kronecker(
     //------------------------------------------stage 3 -----------------------------------------------------//
     always@(posedge i_clk)begin
         if(!i_rst)begin
-            a_ha1 <= 0;
-            b_ha1 <= 0;
-            c_ha1 <= 0;
+            a_h1 <= 0;
+            b_h1 <= 0;
+            c_h1 <= 0;
+            c_h2 <= 0;
         end
         else begin
             if(stage3_valid)begin
-               a_h1 <= a_ha1 + a_ha2;
+               a_h1<= a_ha1 + a_ha2;
                
                b_h1 <= b_ha1 + b_ha2;
                
@@ -235,34 +237,6 @@ module kronecker(
                c_s1 <= (c_h1 + c_h2) >>> 1;
                c_s3 <=  ((c_h1 + c_h2) * 3) >>> 4;
             end
-        end
-    end
-    //---------------------------------count setting--------------------------------------------/
-    
-    always@(posedge i_clk)begin
-        if(!i_rst)begin
-            cnt <= 0;
-        end
-        else begin
-            if(i_valid) begin
-                if(cnt ==11) begin
-                    cnt <= 0;
-                end
-                else begin
-                    cnt <= cnt +1;
-                end
-            end
-        end
-    end
-    always@(posedge i_clk)begin
-        if(!i_rst)begin
-            out_signal <= 0;
-        end
-        else begin
-            if(cnt==11) begin
-                out_signal <= 1;
-            end
-            else out_signal <= 0;
         end
     end
     
@@ -375,7 +349,8 @@ module kronecker(
             end
         end
         
-    assign o_valid = out_signal;
+    assign o_valid = stage13_valid && stage5_valid;
+    
     assign o_data0 = (out_freq0[0] > 0) ? out_freq0[12:1] + 1 : out_freq0[12:1];
     assign o_data1 = (out_freq1[0] > 0) ? out_freq1[12:1] + 1 : out_freq1[12:1];
     assign o_data2 = (out_freq2[0] > 0) ? out_freq2[12:1] + 1 : out_freq2[12:1];
