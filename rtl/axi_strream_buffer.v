@@ -61,7 +61,7 @@ module axi_stream_buffer(
     
     );
     reg  flag;
-    reg [5:0] rd_pt;
+    reg [6:0] rd_pt;
     reg [3:0] d0,d1,d2,d3,d4,d5,d6,d7;
     integer i;
     reg signed [31:0] buffer [63:0];
@@ -98,7 +98,7 @@ module axi_stream_buffer(
             end        
             if(dct_o1)begin
                 buffer[16 + d0] <= {{20{dct_data1[11]}},dct_data1};
-                d0 = d0 +1;
+                d0 <= d0 +1;
                 if(d0==6)begin
                     d0 <= 0;
                 end
@@ -165,7 +165,7 @@ module axi_stream_buffer(
                     m_axis_data <= buffer[rd_pt];
                     m_axis_valid <= 1;
                     rd_pt <= rd_pt +1;
-                    if(rd_pt ==63)begin
+                    if(rd_pt ==64)begin
                         flag <=0;
                         rd_pt <= 0;
                         m_axis_valid <= 0;
