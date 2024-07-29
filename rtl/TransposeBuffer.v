@@ -52,7 +52,7 @@ module TransposeBuffer(
     
     //count setting
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             count <=0;
         end
         else begin
@@ -67,7 +67,7 @@ module TransposeBuffer(
     
     // flag_setting
     always@(posedge i_clk) begin
-        if(i_rst) begin
+        if(!i_rst) begin
             initial_flag <= 0;
         end
         else begin
@@ -79,7 +79,7 @@ module TransposeBuffer(
     
     // write setting
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             write <= 2'b01;
         end
         else begin
@@ -96,7 +96,7 @@ module TransposeBuffer(
     
     // read setting
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             read <= 2'b00;
         end
         else begin
@@ -116,7 +116,7 @@ module TransposeBuffer(
     
     //finish setting 
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             finish <=0;
             f_flag<=0;
         end
