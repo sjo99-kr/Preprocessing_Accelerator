@@ -223,7 +223,7 @@ module row_dct(
         end
         else begin
             if(s3_valid)begin
-                case (count) 
+                case (count)   // 48 CHANNELS SELECT
                     0: begin
                             c1_valid <= 1; c2_valid <=1; c3_valid <= 1; c4_valid <= 1;
                             c5_valid <= 1; c6_valid <=1; c7_valid <= 1; c8_valid <= 0;
@@ -246,17 +246,19 @@ module row_dct(
                     end
                     5: begin
                             c1_valid <= 1; c2_valid <=1; c3_valid <= 1; c4_valid <= 1;
-                            c5_valid <= 1; c6_valid <=1; c7_valid <= 1; c8_valid <= 0; 
-                    end
-                    6: begin
-                            c1_valid <= 1; c2_valid <=1; c3_valid <= 1; c4_valid <= 1;
                             c5_valid <= 1; c6_valid <=1; c7_valid <= 0; c8_valid <= 0; 
                     end
-                    7: begin
-                            c1_valid <= 0; c2_valid <=0; c3_valid <= 0; c4_valid <= 0 ;
+                    6: begin
+                            c1_valid <= 0; c2_valid <=0; c3_valid <= 0; c4_valid <= 0;
                             c5_valid <= 0; c6_valid <=0; c7_valid <= 0; c8_valid <= 0; 
-                    end              
+                    end
                 endcase
+            end
+            else if(s4_valid) begin
+                if(count ==7)begin
+                    c1_valid <= 0; c2_valid <=0; c3_valid <= 0; c4_valid <= 0 ;
+                    c5_valid <= 0; c6_valid <=0; c7_valid <= 0; c8_valid <= 0; 
+                end
             end
         end
     end
