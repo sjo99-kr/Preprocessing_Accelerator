@@ -36,7 +36,7 @@ module RGB2YCbCrModule (
     
     //first clcok cycle
     always @(posedge i_clk) begin
-        if (i_rst) begin
+        if (!i_rst) begin
             Y1_product <= 0;	
             Y2_product <= 0;
             Y3_product <= 0;   
@@ -62,7 +62,7 @@ module RGB2YCbCrModule (
     
     // second clock cycle
     always@(posedge i_clk)begin
-            if(i_rst)begin 
+            if(!i_rst)begin 
                 Y_temp <= 0;
                 CB_temp <= 0;
                 CR_temp <= 0;
@@ -78,7 +78,7 @@ module RGB2YCbCrModule (
     // third clock cycle
     always @(posedge i_clk)
     begin
-        if (i_rst) begin
+        if (!i_rst) begin
             Y <= 0;
             CB <= 0;
             CR <= 0;   
@@ -103,7 +103,7 @@ module RGB2YCbCrModule (
     // signal Control
     always @(posedge i_clk)
     begin
-        if (i_rst) begin
+        if (!i_rst) begin
             cal_valid1 <= 0;
             cal_valid2 <= 0;
             out_valid <= 0;   
