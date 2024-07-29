@@ -77,7 +77,7 @@ module col_dct(
     
     // stage 1 
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             temp1_data0 <= 0;
             temp1_data1 <= 0;
             temp1_data2 <= 0;
@@ -103,7 +103,7 @@ module col_dct(
     
     // stage 2
     always@(posedge i_clk) begin
-        if(i_rst)begin
+        if(!i_rst)begin
             temp2_data0 <= 0;
             temp2_data1 <= 0;
             temp2_data2 <= 0;
@@ -129,7 +129,7 @@ module col_dct(
     
     //stage 3
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             temp3_data0 <= 0;
             temp3_data1 <= 0;
             temp3_data2 <= 0;
@@ -155,7 +155,7 @@ module col_dct(
     
     // stage 4
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             temp4_data0 <= 0;
             temp4_data1 <= 0;
             temp4_data2 <= 0;
@@ -183,7 +183,7 @@ module col_dct(
     
     // output signal setting
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             s1_valid <=0;
             s2_valid <= 0;
             s3_valid <= 0;
