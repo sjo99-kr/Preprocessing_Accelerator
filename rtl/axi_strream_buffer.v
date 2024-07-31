@@ -23,6 +23,7 @@
 module axi_stream_buffer(
     input i_clk,
     input i_rst,
+    input m_axis_ready,
     
     // input data
     input signed [11:0] cr_kron_data1,
@@ -143,7 +144,7 @@ module axi_stream_buffer(
            if(dct_o7)begin
                 buffer[58 + d6] <= {{20{dct_data7[11]}}, dct_data7};
                 d6 <= d6 +1;
-                if(d6 == 6)begin
+                if(d6 == 5)begin
                     d6 <= 0;
                 end
            end
@@ -157,18 +158,20 @@ module axi_stream_buffer(
             rd_pt <= 0;
         end
         else begin
-            if(cr_kron_valid)begin
+            if(d6==5)begin
                 flag <= 1;
             end
             else begin
-                if(flag ==1)begin
-                    m_axis_data <= buffer[rd_pt];
-                    m_axis_valid <= 1;
-                    rd_pt <= rd_pt +1;
-                    if(rd_pt ==64)begin
-                        flag <=0;
-                        rd_pt <= 0;
-                        m_axis_valid <= 0;
+                if(m_axis_ready)begin
+                    if(flag ==1)begin
+                        m_axis_data <= buffer[rd_pt];
+                        m_axis_valid <= 1;
+                        rd_pt <= rd_pt +1;
+                        if(rd_pt ==64)begin
+                            flag <=0;
+                            rd_pt <= 0;
+                            m_axis_valid <= 0;
+                        end
                     end
                 end
             end
