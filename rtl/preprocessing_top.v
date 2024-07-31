@@ -201,6 +201,7 @@ module preprocessing_top(
     axi_stream_buffer axi_buf(
         .i_clk(axi_clk),
         .i_rst(axi_rst),
+        .m_axis_ready(m_axis_ready),
         .cr_kron_data1(kron_cr_out0),
         .cr_kron_data2(kron_cr_out1),
         .cr_kron_data3(kron_cr_out2),
