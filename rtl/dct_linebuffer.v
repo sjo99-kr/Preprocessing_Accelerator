@@ -62,7 +62,7 @@ module dct_linebuffer(
     
     // rd_ptr setting 
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             rd_ptr <=0;
         end
         else begin
@@ -77,7 +77,7 @@ module dct_linebuffer(
     
     // wr_ptr setting && buf_num setting
     always@(posedge i_clk)begin
-        if(i_rst)begin
+        if(!i_rst)begin
             wr_ptr<=0;
             buf_num <=0;
         end
