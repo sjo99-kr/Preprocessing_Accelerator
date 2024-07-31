@@ -100,7 +100,7 @@ module TransposeBuffer(
             read <= 2'b00;
         end
         else begin
-            if(count == 7)begin
+            if(read==2'b00 && count == 7)begin
                 read <= 2'b01; 
             end
             else begin
@@ -121,10 +121,15 @@ module TransposeBuffer(
             f_flag<=0;
         end
         else begin
-            if( ~i_valid && initial_flag)begin
+            if(i_valid && (count == 7))begin
+                finish <= 0;
+                f_flag <= 0;
+            end
+            else if( ~i_valid && initial_flag)begin
                 finish <= finish +1;
                 if(finish == 7)begin
                     f_flag <=1;
+                    finish <= 0;
                 end
             end 
         end
