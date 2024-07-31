@@ -27,7 +27,7 @@ module Buffer_8x8(
     integer i;
     reg flag;
     reg [5:0] wr_pt;
-    reg [3:0] rd_pt;
+    reg [4:0] rd_pt;
     
     always@(posedge i_clk)begin
         if(!i_rst)begin
@@ -37,7 +37,7 @@ module Buffer_8x8(
             wr_pt <= 0;
             flag <= 0;
             o_intr <= 0;
-            s_axis_ready <= 0;
+            s_axis_ready <= 1;
         end        
                    
         else begin
@@ -52,8 +52,10 @@ module Buffer_8x8(
             end
             
             if(rd_pt == 8 && flag == 1)begin
-                flag <= 0;
                 o_intr <= 1;
+            end
+            else if(rd_pt ==15 && flag ==1)begin
+                flag <= 0;
                 s_axis_ready <= 1;
             end
             else begin
@@ -77,20 +79,23 @@ module Buffer_8x8(
         end
         else begin
             if(flag ==1) begin
-                
-                output_data1 <= buffer[rd_pt*8];
-                output_data2 <= buffer[rd_pt*8 + 1];
-                output_data3 <= buffer[rd_pt*8 + 2];
-                output_data4 <= buffer[rd_pt*8 + 3];
-                output_data5 <= buffer[rd_pt*8 + 4];
-                output_data6 <= buffer[rd_pt*8 + 5];
-                output_data7 <= buffer[rd_pt*8 + 6];
-                output_data8 <= buffer[rd_pt*8 + 7];
                 rd_pt <= rd_pt + 1;
-                output_valid <= 1;
-                if(rd_pt == 8)begin
+                if(rd_pt < 8)begin
+                    output_data1 <= buffer[rd_pt*8];
+                    output_data2 <= buffer[rd_pt*8 + 1];
+                    output_data3 <= buffer[rd_pt*8 + 2];
+                    output_data4 <= buffer[rd_pt*8 + 3];
+                    output_data5 <= buffer[rd_pt*8 + 4];
+                    output_data6 <= buffer[rd_pt*8 + 5];
+                    output_data7 <= buffer[rd_pt*8 + 6];
+                    output_data8 <= buffer[rd_pt*8 + 7];
+                    output_valid <= 1;
+                end
+                else if(rd_pt > 7)begin
                     output_valid <= 0;
-                    rd_pt <= 0;
+                    if(rd_pt == 15)begin
+                        rd_pt <= 0;
+                    end
                 end
             end 
             
