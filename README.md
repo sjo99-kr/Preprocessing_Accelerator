@@ -6,5 +6,5 @@
 ![image](https://github.com/user-attachments/assets/95f59762-545a-4e83-b32d-5795d744aaf4)
 ![image](https://github.com/user-attachments/assets/e161187b-1ac4-43a6-b650-6f755a349406)
 
-### Generated Clock : 115MHz, ~110 Frames per Seconds (1280x720 Resolution)
+### Generated Clock : 115MHz, ~100 Frames per Second (1280x720 Resolution)
 ### Total On-Chip Power : 0.315W (Dynamic: 0.207W (66%), Static: 0.107W (34%))
